@@ -1,0 +1,16 @@
+# Repository: QuantumSimulate
+
+from qiskit import QuantumCircuit, transpile, assemble, Aer, execute
+
+qc = QuantumCircuit(2, 2)
+
+qc.h(0)
+qc.cx(0, 1)
+qc.measure([0, 1], [0, 1])
+
+simulator = Aer.get_backend('qasm_simulator')
+transpiled_circuit = transpile(qc, simulator)
+qobj = assemble(transpiled_circuit)
+result = execute(qobj, simulator).result()
+counts = result.get_counts(qc)
+print(counts)
